@@ -1,5 +1,8 @@
 // var API = require('indian-stock-exchange');
 var express = require("express");
+const serverless = require("serverless-http");
+const app = express();
+const router = express.Router();
 var API = require('./index');
 
 var BSEAPI = API.BSE;
@@ -263,4 +266,11 @@ app.get("/bse/getTopTurnOvers", (req, res, next) => {
     });
 });
 
-module.exports = app;
+router.get("/", (req, res) => {
+    res.send("App is running..");
+});
+
+app.use("/.netlify/functions/app", router);
+module.exports.handler = serverless(app);
+
+// module.exports = app;
